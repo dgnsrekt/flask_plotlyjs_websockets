@@ -1,0 +1,11 @@
+{
+  "name": "static",
+  "version": "0.0.1",
+  "description": "playing around with plotly",
+  "main": "index.js",
+  "author": "dgnsrekt",
+  "license": "MIT",
+  "dependencies": {
+    "plotly": "^1.0.6"
+  }
+}
