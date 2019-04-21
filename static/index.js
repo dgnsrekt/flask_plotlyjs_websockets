@@ -8,30 +8,26 @@ function removeElementsByClass(className) {
 
 var socket = io.connect('http://' + document.domain + ':' + location.port);
 
-
+var x = []
+var update = false
+TESTER = document.getElementById('tester');
 
 socket.on('connect', function() {
   console.log('connected')
   socket.emit('send_data');
 });
 
-
-var x = []
-var update = false
-TESTER = document.getElementById('tester');
-
 socket.on('data', function(data) {
   x.push(data)
   update = true
 });
-
-
 
 function showPlot() {
 
   var trace1 = {
     x: x,
     type: "histogram",
+    histnorm: 'density',
     opacity: 0.5,
     marker: {
       color: 'green',
@@ -53,8 +49,10 @@ var interval = setInterval(function() {
   }
 }, 300);
 
-showPlot()
 
 function buttonClicked() {
-  socket.emit('clicked');
+  emit_data = document.getElementById('emit_data').value
+  x = []
+  socket.emit('clicked', { data: emit_data });
 }
+showPlot()
