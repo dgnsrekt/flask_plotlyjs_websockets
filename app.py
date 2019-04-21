@@ -15,7 +15,6 @@ def index():
 
 def emit_random_numbers():
     while True:
-        socketio.sleep(0.5)
         yield randint(0, 100)
 
 
@@ -23,11 +22,12 @@ def bg_job():
     for i, n in enumerate(emit_random_numbers()):
         print(n)
         socketio.emit("data", n)
-        if i > 10000:
+        socketio.sleep(0.0001)
+        if i > 50000:
             break
 
 
-@socketio.on("send_data")
+@socketio.on("clicked")
 def handle_data():
     print("sending data")
     thread = socketio.start_background_task(bg_job)
