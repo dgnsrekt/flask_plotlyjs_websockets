@@ -18,7 +18,7 @@ def index():
 
 def emit_random_numbers():
     while True:
-        yield randint(0, 100)
+        yield randint(0, 120)
 
 
 def bg_job(x):
@@ -26,7 +26,7 @@ def bg_job(x):
     for i, n in enumerate(emit_random_numbers()):
         print(n)
         socketio.emit("data", n)
-        socketio.sleep(0.001)
+        socketio.sleep(0.0001)
         if i > x:
             break
     thread = None
@@ -40,12 +40,14 @@ def handle_connect():
 
 @socketio.on("clicked")
 def handle_data(data):
-    print("sending data")
+    if data["data"]:
+        print("data recieved")
     global thread
     with thread_lock:
         if thread is None:
             try:
                 x = int(data["data"])
+                print("sending payload.")
                 thread = socketio.start_background_task(bg_job, x)
             except ValueError:
                 pass

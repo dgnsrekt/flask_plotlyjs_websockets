@@ -27,8 +27,12 @@ function showPlot() {
   var trace1 = {
     x: x,
     type: "histogram",
-    histnorm: 'density',
+    histnorm: 'precent',
     opacity: 0.5,
+    nbinsx: x.length / 4,
+    xbins: {
+      size: 2
+    },
     marker: {
       color: 'green',
     },
